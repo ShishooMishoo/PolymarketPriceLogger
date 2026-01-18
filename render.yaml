@@ -1,0 +1,10 @@
+services:
+  - type: worker
+    name: polymarket-monitor
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python price_monitor_service.py
+    plan: free
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11"

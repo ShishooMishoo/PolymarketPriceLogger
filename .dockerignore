@@ -1,0 +1,15 @@
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+logs/
+test_*.json
+Portu.py
+portugal_election_prices.json
+.git
+.gitignore
+*.md
+!README.md

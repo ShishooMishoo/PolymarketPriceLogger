@@ -1,0 +1,20 @@
+{
+  "markets": [
+    {
+      "slug": "will-joo-cotrim-figueiredo-win-the-2026-portugal-presidential-election-643",
+      "name": "Portugal Election - João Cotrim Figueiredo",
+      "enabled": true
+    },
+    {
+      "slug": "von-der-leyen-out-as-european-commission-president-in-2026",
+      "name": "Von der Leyen out as European Commission President in 2026?",
+      "enabled": true
+    }
+  ],
+  "settings": {
+    "poll_interval_seconds": 60,
+    "config_reload_interval_seconds": 30,
+    "output_directory": "logs",
+    "log_format": "{slug}_{date}.json"
+  }
+}

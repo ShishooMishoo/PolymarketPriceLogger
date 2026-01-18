@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  polymarket-monitor:
+    build: .
+    container_name: polymarket-monitor
+    restart: unless-stopped
+    volumes:
+      - ./logs:/app/logs
+      - ./config.json:/app/config.json
+    environment:
+      - PYTHONUNBUFFERED=1
