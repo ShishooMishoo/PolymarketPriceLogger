@@ -1,26 +1,26 @@
 # Polymarket Price Logger
 
-Инструменты для мониторинга и логирования цен bid/ask на рынках Polymarket.
+Tools for monitoring and logging bid/ask prices on Polymarket markets.
 
-## Два режима работы
+## Two Operating Modes
 
-### 1. Простой скрипт (polymarket_price_logger.py)
-Мониторинг одного рынка в течение заданного времени.
+### 1. Simple Script (polymarket_price_logger.py)
+Monitor a single market for a specified duration.
 
-### 2. Сервис (price_monitor_service.py) ⭐ Рекомендуется
-Непрерывный мониторинг нескольких рынков с горячей перезагрузкой конфигурации.
+### 2. Service (price_monitor_service.py) ⭐ Recommended
+Continuous monitoring of multiple markets with hot configuration reload.
 
 ---
 
-## Быстрый старт сервиса
+## Service Quick Start
 
-### 1. Установка
+### 1. Installation
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Настройка
-Отредактируйте `config.json`:
+### 2. Configuration
+Edit `config.json`:
 ```json
 {
   "markets": [
@@ -38,7 +38,7 @@ pip install -r requirements.txt
 }
 ```
 
-### 3. Запуск
+### 3. Launch
 **Windows:**
 ```bash
 start_service.bat
@@ -49,20 +49,20 @@ start_service.bat
 python price_monitor_service.py
 ```
 
-📖 **Подробная документация:** [SERVICE_GUIDE.md](SERVICE_GUIDE.md)
+📖 **Detailed documentation:** [SERVICE_GUIDE.md](SERVICE_GUIDE.md)
 
 ---
 
-## 📤 Загрузка на GitHub
+## 📤 Upload to GitHub
 
-Перед развертыванием в облаке загрузите проект на GitHub:
+Before deploying to the cloud, upload the project to GitHub:
 
-### Автоматический способ:
-1. Создайте репозиторий на [github.com/new](https://github.com/new)
-2. Запустите: **`upload_to_github.bat`**
-3. Следуйте инструкциям в окне
+### Automatic method:
+1. Create a repository at [github.com/new](https://github.com/new)
+2. Run: **`upload_to_github.bat`**
+3. Follow the on-screen instructions
 
-### Ручной способ:
+### Manual method:
 ```bash
 git init
 git add .
@@ -71,46 +71,46 @@ git remote add origin https://github.com/username/repo.git
 git push -u origin main
 ```
 
-📖 **Инструкции:**
-- **Быстрая шпаргалка:** [GITHUB_QUICK.md](GITHUB_QUICK.md) - 5 команд
-- **Подробное руководство:** [GITHUB_GUIDE.md](GITHUB_GUIDE.md) - все детали
+📖 **Instructions:**
+- **Quick reference:** [GITHUB_QUICK.md](GITHUB_QUICK.md) - 5 commands
+- **Detailed guide:** [GITHUB_GUIDE.md](GITHUB_GUIDE.md) - all details
 
 ---
 
-## ☁️ Развертывание в облаке
+## ☁️ Cloud Deployment
 
-После загрузки на GitHub можно развернуть в облаке за 5 минут!
+After uploading to GitHub, deploy to the cloud in 5 minutes!
 
-### Быстрые варианты:
+### Quick options:
 
-| Платформа | Цена | Время настройки | Ссылка |
-|-----------|------|-----------------|--------|
-| **Railway** | $5/мес | 5 минут | [railway.app](https://railway.app) |
-| **Oracle Cloud** | **Бесплатно!** | 20 минут | [oracle.com/cloud/free](https://oracle.com/cloud/free) |
-| **DigitalOcean** | $4/мес | 15 минут | [digitalocean.com](https://digitalocean.com) |
+| Platform | Price | Setup Time | Link |
+|----------|-------|------------|------|
+| **Railway** | $5/mo | 5 minutes | [railway.app](https://railway.app) |
+| **Oracle Cloud** | **Free!** | 20 minutes | [oracle.com/cloud/free](https://oracle.com/cloud/free) |
+| **DigitalOcean** | $4/mo | 15 minutes | [digitalocean.com](https://digitalocean.com) |
 
-📖 **Инструкции по развертыванию:**
-- **Быстрый старт:** [DEPLOY_QUICK.md](DEPLOY_QUICK.md) (3 простых варианта)
-- **Полное руководство:** [CLOUD_DEPLOYMENT.md](CLOUD_DEPLOYMENT.md) (все платформы)
+📖 **Deployment instructions:**
+- **Quick start:** [DEPLOY_QUICK.md](DEPLOY_QUICK.md) (3 simple options)
+- **Complete guide:** [CLOUD_DEPLOYMENT.md](CLOUD_DEPLOYMENT.md) (all platforms)
 
 ---
 
-## Использование простого скрипта
+## Using the Simple Script
 
-## Установка
+## Installation
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Использование
+## Usage
 
-### Базовое использование
+### Basic Usage
 
 ```python
 from polymarket_price_logger import log_market_prices
 
-# Мониторинг рынка в течение 60 минут
+# Monitor market for 60 minutes
 log_market_prices(
     market_id="will-joo-cotrim-figueiredo-win-the-2026-portugal-presidential-election-643",
     duration_minutes=60,
@@ -118,21 +118,21 @@ log_market_prices(
 )
 ```
 
-### Параметры
+### Parameters
 
-- `market_id` (str): Slug рынка Polymarket
-- `duration_minutes` (int, optional): Длительность мониторинга в минутах. `None` = бесконечно
-- `log_file` (str): Имя JSON файла для сохранения данных
+- `market_id` (str): Polymarket market slug
+- `duration_minutes` (int, optional): Monitoring duration in minutes. `None` = infinite
+- `log_file` (str): JSON file name for saving data
 
-### Как найти market_id (slug)
+### How to Find market_id (slug)
 
-1. Откройте рынок на polymarket.com
-2. URL будет выглядеть так: `https://polymarket.com/event/portugal-presidential-election`
-3. Нажмите на конкретный вопрос (например, "Will João Cotrim Figueiredo win?")
-4. URL изменится на: `https://polymarket.com/event/portugal-presidential-election/will-joo-cotrim-figueiredo-win-the-2026-portugal-presidential-election-643`
-5. Скопируйте последнюю часть после последнего `/` - это и есть slug: `will-joo-cotrim-figueiredo-win-the-2026-portugal-presidential-election-643`
+1. Open the market on polymarket.com
+2. URL will look like: `https://polymarket.com/event/portugal-presidential-election`
+3. Click on a specific question (e.g., "Will João Cotrim Figueiredo win?")
+4. URL will change to: `https://polymarket.com/event/portugal-presidential-election/will-joo-cotrim-figueiredo-win-the-2026-portugal-presidential-election-643`
+5. Copy the last part after the final `/` - this is the slug: `will-joo-cotrim-figueiredo-win-the-2026-portugal-presidential-election-643`
 
-### Формат данных
+### Data Format
 
 ```json
 [
@@ -148,15 +148,15 @@ log_market_prices(
 ]
 ```
 
-## Примеры
+## Examples
 
-### Мониторинг 1 час
+### Monitor for 1 hour
 ```bash
 python example.py
 ```
 
-### Бесконечный мониторинг
-Измените `duration_minutes=None` в example.py и остановите через Ctrl+C
+### Infinite monitoring
+Change `duration_minutes=None` in example.py and stop with Ctrl+C
 
 ## API Endpoints
 
