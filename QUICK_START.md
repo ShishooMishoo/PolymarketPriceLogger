@@ -1,29 +1,29 @@
-# Quick Start Guide - 5 минут до запуска
+# Quick Start Guide - 5 Minutes to Launch
 
-## ✅ Чеклист готовности
+## ✅ Readiness Checklist
 
-- [ ] Python 3.7+ установлен
-- [ ] Интернет-соединение активно
-- [ ] Скачаны все файлы проекта
+- [ ] Python 3.7+ installed
+- [ ] Internet connection active
+- [ ] All project files downloaded
 
-## 🚀 Запуск за 3 шага
+## 🚀 Launch in 3 Steps
 
-### Шаг 1: Установка зависимостей (30 секунд)
+### Step 1: Install Dependencies (30 seconds)
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### Шаг 2: Настройка рынков (2 минуты)
+### Step 2: Configure Markets (2 minutes)
 
-Откройте `config.json` и добавьте свои рынки:
+Open `config.json` and add your markets:
 
 ```json
 {
   "markets": [
     {
-      "slug": "ваш-market-slug",
-      "name": "Название рынка",
+      "slug": "your-market-slug",
+      "name": "Market Name",
       "enabled": true
     }
   ],
@@ -35,16 +35,16 @@ pip install -r requirements.txt
 }
 ```
 
-**Где найти slug?**
-1. Откройте рынок на polymarket.com
-2. Нажмите на конкретный вопрос
-3. Скопируйте последнюю часть URL после последнего `/`
+**How to find the slug?**
+1. Open the market on polymarket.com
+2. Click on a specific question
+3. Copy the last part of the URL after the final `/`
 
-**Пример:**
+**Example:**
 - URL: `https://polymarket.com/event/portugal-presidential-election/will-joo-cotrim-figueiredo-win-the-2026-portugal-presidential-election-643`
 - Slug: `will-joo-cotrim-figueiredo-win-the-2026-portugal-presidential-election-643`
 
-### Шаг 3: Запуск (10 секунд)
+### Step 3: Launch (10 seconds)
 
 **Windows:**
 ```bash
@@ -56,39 +56,39 @@ start_service.bat
 python price_monitor_service.py
 ```
 
-## ✨ Готово!
+## ✨ Done!
 
-Сервис запущен! Вы увидите:
+Service is running! You will see:
 
 ```
 ============================================================
 Polymarket Price Monitor Service
 ============================================================
 
-Запуск монитора: Portugal Election - João Cotrim Figueiredo
-[Portugal Election] Инициализация завершена
-[Portugal Election] Запуск мониторинга...
+Starting monitor: Portugal Election - João Cotrim Figueiredo
+[Portugal Election] Initialization complete
+[Portugal Election] Starting monitoring...
 
-Запущено мониторов: 1
-Директория для логов: logs
-Интервал опроса: 60 секунд
+Monitors running: 1
+Log directory: logs
+Poll interval: 60 seconds
 
-Для остановки нажмите Ctrl+C
+Press Ctrl+C to stop
 ============================================================
 
-[Portugal Election] [2026-01-18 12:30:00] Запись #1: Bid=0.162, Ask=0.164, Mid=0.163
+[Portugal Election] [2026-01-18 12:30:00] Entry #1: Bid=0.162, Ask=0.164, Mid=0.163
 ```
 
-## 📊 Проверка данных
+## 📊 Data Verification
 
-Данные сохраняются в директории `logs/`:
+Data is saved in the `logs/` directory:
 
 ```bash
 ls logs/
-# будет: market-slug_2026-01-18.json
+# output: market-slug_2026-01-18.json
 ```
 
-Пример содержимого:
+Sample content:
 ```json
 [
   {
@@ -101,73 +101,73 @@ ls logs/
 ]
 ```
 
-## 🔄 Добавление новых рынков (без остановки!)
+## 🔄 Adding New Markets (Without Stopping!)
 
-1. Откройте `config.json`
-2. Добавьте новый рынок в массив `markets`:
+1. Open `config.json`
+2. Add a new market to the `markets` array:
    ```json
    {
-     "slug": "новый-market-slug",
-     "name": "Новое название",
+     "slug": "new-market-slug",
+     "name": "New Name",
      "enabled": true
    }
    ```
-3. Сохраните файл
-4. Через 30 секунд сервис автоматически начнет мониторить новый рынок!
+3. Save the file
+4. After 30 seconds, the service will automatically start monitoring the new market!
 
-## ⏸️ Остановка
+## ⏸️ Stopping
 
-Нажмите `Ctrl+C` в консоли где запущен сервис.
+Press `Ctrl+C` in the console where the service is running.
 
-## ❓ Что-то не работает?
+## ❓ Something Not Working?
 
-### Проблема: "requests module not found"
-**Решение:**
+### Problem: "requests module not found"
+**Solution:**
 ```bash
 pip install requests
 ```
 
-### Проблема: "Ошибка: рынок не найден"
-**Решение:** Проверьте правильность slug в config.json
+### Problem: "Error: market not found"
+**Solution:** Check the slug correctness in config.json
 
-### Проблема: Кракозябры вместо текста (Windows)
-**Решение:** Уже исправлено в коде! Если все еще видите, выполните:
+### Problem: Garbled text instead of readable output (Windows)
+**Solution:** Already fixed in code! If still seeing issues, run:
 ```bash
 chcp 65001
 ```
 
-### Проблема: Сервис не запускается
-**Решение:**
-1. Проверьте синтаксис JSON в config.json (используйте jsonlint.com)
-2. Убедитесь что Python 3.7+: `python --version`
-3. Проверьте логи в консоли
+### Problem: Service won't start
+**Solution:**
+1. Check JSON syntax in config.json (use jsonlint.com)
+2. Ensure Python 3.7+: `python --version`
+3. Check console logs
 
-## 📖 Дальнейшее изучение
+## 📖 Further Learning
 
-- **Подробная документация:** `SERVICE_GUIDE.md`
-- **Решение проблем:** `TROUBLESHOOTING.md`
-- **Архитектура:** `PROJECT_STRUCTURE.md`
-- **Полный обзор:** `SUMMARY.md`
+- **Detailed documentation:** `SERVICE_GUIDE.md`
+- **Troubleshooting:** `TROUBLESHOOTING.md`
+- **Architecture:** `PROJECT_STRUCTURE.md`
+- **Full overview:** `SUMMARY.md`
 
-## 💡 Полезные советы
+## 💡 Useful Tips
 
-### Запуск в фоне (Linux/Mac)
+### Run in Background (Linux/Mac)
 ```bash
 nohup python price_monitor_service.py > service.log 2>&1 &
 ```
 
-### Просмотр логов в реальном времени
+### View Logs in Real-Time
 ```bash
 tail -f logs/market-slug_$(date +%Y-%m-%d).json
 ```
 
-### Проверка что сервис работает
+### Check if Service is Running
 ```bash
 ls -lh logs/
-# должны видеть свежие файлы с сегодняшней датой
+# should see fresh files with today's date
 ```
 
-### Backup данных
+### Data Backup
 ```bash
 # Windows
 xcopy logs logs_backup\ /E /I /Y
@@ -176,9 +176,9 @@ xcopy logs logs_backup\ /E /I /Y
 cp -r logs logs_backup
 ```
 
-## 🎯 Типичные конфигурации
+## 🎯 Typical Configurations
 
-### 1. Один рынок, каждую минуту
+### 1. Single Market, Every Minute
 ```json
 {
   "markets": [{"slug": "your-slug", "name": "Market", "enabled": true}],
@@ -186,7 +186,7 @@ cp -r logs logs_backup
 }
 ```
 
-### 2. Много рынков, каждые 2 минуты
+### 2. Multiple Markets, Every 2 Minutes
 ```json
 {
   "markets": [
@@ -198,7 +198,7 @@ cp -r logs logs_backup
 }
 ```
 
-### 3. Высокая частота (30 сек)
+### 3. High Frequency (30 sec)
 ```json
 {
   "markets": [{"slug": "your-slug", "name": "HF Market", "enabled": true}],
@@ -206,20 +206,20 @@ cp -r logs logs_backup
 }
 ```
 
-## ✅ Контрольный список успешного запуска
+## ✅ Successful Launch Checklist
 
-- [x] Установлены зависимости
-- [x] Настроен config.json
-- [x] Сервис запущен
-- [x] Видны логи в консоли
-- [x] Создана директория logs/
-- [x] Файлы с данными создаются
-- [x] Записи добавляются каждую минуту
+- [x] Dependencies installed
+- [x] config.json configured
+- [x] Service started
+- [x] Logs visible in console
+- [x] logs/ directory created
+- [x] Data files being created
+- [x] Entries added every minute
 
-**Если все пункты выполнены - всё работает отлично!** 🎉
+**If all items are checked - everything is working great!** 🎉
 
 ---
 
-**Время на настройку:** 5 минут
-**Сложность:** 🟢 Легко
-**Статус:** Готово к использованию
+**Setup Time:** 5 minutes
+**Difficulty:** 🟢 Easy
+**Status:** Ready to use

@@ -1,114 +1,114 @@
 # Troubleshooting - Polymarket Price Logger
 
-Документ с описанием проблем, возникших при разработке, и их решений.
+Document describing problems encountered during development and their solutions.
 
 ---
 
-## Проблема 1: Ошибка API 422 при запросе деталей рынка
+## Problem 1: API 422 Error When Requesting Market Details
 
-### Симптомы
+### Symptoms
 ```
-Ошибка API: 422
-Ошибка: не удалось получить данные для рынка 0xe90b27f08082e17740308fdc957528d29a3f334a9ecaeefd056a3427a4cfdaaf
+API Error: 422
+Error: failed to get data for market 0xe90b27f08082e17740308fdc957528d29a3f334a9ecaeefd056a3427a4cfdaaf
 ```
 
-### Причина
-Gamma API не принимает `condition_id` в URL path формате (`/markets/{condition_id}`). API ожидает параметры через query string.
+### Cause
+Gamma API doesn't accept `condition_id` in URL path format (`/markets/{condition_id}`). API expects parameters via query string.
 
-### Решение
-Изменить метод запроса с:
+### Solution
+Change request method from:
 ```python
 url = f"{GAMMA_API_BASE}/markets/{market_id}"
 response = requests.get(url, timeout=10)
 ```
 
-На:
+To:
 ```python
 url = f"{GAMMA_API_BASE}/markets"
 params = {"slug": market_id}
 response = requests.get(url, params=params, timeout=10)
 ```
 
-**Важно:** Использовать `slug` вместо `condition_id` для получения информации о рынке.
+**Important:** Use `slug` instead of `condition_id` to get market information.
 
 ---
 
-## Проблема 2: Неправильная фильтрация по condition_id
+## Problem 2: Incorrect Filtering by condition_id
 
-### Симптомы
-При запросе с параметром `condition_id` API возвращает неправильные рынки (например, старые рынки 2020 года вместо Portugal Presidential Election 2026).
+### Symptoms
+When requesting with `condition_id` parameter, API returns wrong markets (e.g., old 2020 markets instead of Portugal Presidential Election 2026).
 
-### Причина
-Параметр `condition_id` в Gamma API работает некорректно и возвращает произвольные рынки вместо фильтрации по конкретному condition_id.
+### Cause
+The `condition_id` parameter in Gamma API works incorrectly and returns arbitrary markets instead of filtering by specific condition_id.
 
-### Решение
-Использовать параметр `slug` вместо `condition_id`:
+### Solution
+Use `slug` parameter instead of `condition_id`:
 ```python
 params = {"slug": "will-joo-cotrim-figueiredo-win-the-2026-portugal-presidential-election-643"}
 ```
 
-**Как найти slug:**
-1. Откройте рынок на polymarket.com
+**How to find slug:**
+1. Open market on polymarket.com
 2. URL: `https://polymarket.com/event/portugal-presidential-election/will-joo-cotrim-figueiredo-win-the-2026-portugal-presidential-election-643`
-3. Slug - это последняя часть URL после `/`
+3. Slug is the last part of URL after `/`
 
 ---
 
-## Проблема 3: Ошибка API 400 при запросе цен
+## Problem 3: API 400 Error When Requesting Prices
 
-### Симптомы
+### Symptoms
 ```
-Ошибка API цен: 400
-Ошибка: не удалось получить цены для токена 28238304963115391468520084611709080022027216241044579007402765414035709535435
+Price API Error: 400
+Error: failed to get prices for token 28238304963115391468520084611709080022027216241044579007402765414035709535435
 ```
 
-### Причина
-CLOB API endpoint `/price` требует обязательный параметр `side` (buy или sell), но в коде этот параметр не передавался.
+### Cause
+CLOB API endpoint `/price` requires mandatory `side` parameter (buy or sell), but this parameter wasn't passed in the code.
 
-Ответ API при отсутствии параметра:
+API response when parameter is missing:
 ```json
 {"error": "Invalid side"}
 ```
 
-### Решение
-Необходимо делать два отдельных запроса для получения bid и ask:
+### Solution
+Need to make two separate requests to get bid and ask:
 
 ```python
-# Получаем bid (цена покупки)
+# Get bid (buy price)
 response_buy = requests.get(url, params={"token_id": token_id, "side": "buy"}, timeout=10)
 
-# Получаем ask (цена продажи)
+# Get ask (sell price)
 response_sell = requests.get(url, params={"token_id": token_id, "side": "sell"}, timeout=10)
 ```
 
-Затем извлечь цены из ответов:
+Then extract prices from responses:
 ```python
 bid = float(bid_data.get('price', 0)) if bid_data.get('price') else None
 ask = float(ask_data.get('price', 0)) if ask_data.get('price') else None
 mid = (bid + ask) / 2 if bid and ask else None
 ```
 
-**Важно:**
-- `side=buy` возвращает цену покупки (bid)
-- `side=sell` возвращает цену продажи (ask)
-- `mid` вычисляется как среднее между bid и ask
+**Important:**
+- `side=buy` returns buy price (bid)
+- `side=sell` returns sell price (ask)
+- `mid` is calculated as average of bid and ask
 
 ---
 
-## Проблема 4: UnicodeEncodeError в Windows консоли
+## Problem 4: UnicodeEncodeError in Windows Console
 
-### Симптомы
+### Symptoms
 ```
 UnicodeEncodeError: 'charmap' codec can't encode characters in position 0-6: character maps to <undefined>
 ```
 
-Возникает при выводе русского текста или специальных символов (например, "João").
+Occurs when outputting Russian text or special characters (e.g., "João").
 
-### Причина
-По умолчанию Windows консоль использует кодировку cp1252, которая не поддерживает кириллицу и многие специальные символы.
+### Cause
+By default, Windows console uses cp1252 encoding, which doesn't support Cyrillic and many special characters.
 
-### Решение
-Перенастроить stdout на UTF-8 в начале функции:
+### Solution
+Reconfigure stdout to UTF-8 at the beginning of function:
 
 ```python
 import sys
@@ -116,129 +116,129 @@ if sys.platform == 'win32':
     sys.stdout.reconfigure(encoding='utf-8')
 ```
 
-Это нужно делать перед любым выводом в консоль, содержащим не-ASCII символы.
+This needs to be done before any console output containing non-ASCII characters.
 
 ---
 
-## Проблема 5: Неправильная структура данных clobTokenIds
+## Problem 5: Incorrect clobTokenIds Data Structure
 
-### Симптомы
-Не удается извлечь token_id из ответа API.
+### Symptoms
+Unable to extract token_id from API response.
 
-### Причина
-Поле `clobTokenIds` в ответе API может быть как строкой JSON, так и уже распарсенным массивом, в зависимости от версии API или типа запроса.
+### Cause
+The `clobTokenIds` field in API response can be either a JSON string or an already parsed array, depending on API version or request type.
 
-### Решение
-Проверять тип данных и парсить при необходимости:
+### Solution
+Check data type and parse if necessary:
 
 ```python
 clob_token_ids = market_details.get('clobTokenIds')
 token_ids = json.loads(clob_token_ids) if isinstance(clob_token_ids, str) else clob_token_ids
 
-# Берем первый токен (YES)
+# Take first token (YES)
 token_id = token_ids[0] if isinstance(token_ids, list) and len(token_ids) > 0 else None
 ```
 
-**Важно:** Первый токен в массиве - это всегда токен "YES", второй - "NO".
+**Important:** First token in array is always "YES" token, second is "NO".
 
 ---
 
-## Проблема 6: Отсутствие токенов в старом API формате
+## Problem 6: Missing Tokens in Old API Format
 
-### Симптомы
+### Symptoms
 ```
-Ошибка: рынок не содержит токенов
+Error: market contains no tokens
 ```
 
-### Причина
-Старые рынки использовали поле `tokens` вместо `clobTokenIds`. Новые рынки используют только `clobTokenIds`.
+### Cause
+Old markets used `tokens` field instead of `clobTokenIds`. New markets only use `clobTokenIds`.
 
-### Решение
-Использовать только `clobTokenIds` для всех современных рынков:
+### Solution
+Use only `clobTokenIds` for all modern markets:
 
 ```python
 clob_token_ids = market_details.get('clobTokenIds')
 if not clob_token_ids:
-    print("Ошибка: рынок не содержит токенов")
+    print("Error: market contains no tokens")
     return None
 ```
 
-Не пытаться использовать поле `tokens` - это устаревший формат.
+Don't try to use `tokens` field - it's deprecated format.
 
 ---
 
-## Общие рекомендации
+## General Recommendations
 
 ### API Endpoints
-- **Gamma API:** `https://gamma-api.polymarket.com` - для получения информации о рынках
-- **CLOB API:** `https://clob.polymarket.com` - для получения цен
+- **Gamma API:** `https://gamma-api.polymarket.com` - for getting market information
+- **CLOB API:** `https://clob.polymarket.com` - for getting prices
 
-### Структура запросов
+### Request Structure
 
-1. **Получение информации о рынке:**
+1. **Get market information:**
    ```
    GET https://gamma-api.polymarket.com/markets?slug={market_slug}
    ```
 
-2. **Получение цены bid:**
+2. **Get bid price:**
    ```
    GET https://clob.polymarket.com/price?token_id={token_id}&side=buy
    ```
 
-3. **Получение цены ask:**
+3. **Get ask price:**
    ```
    GET https://clob.polymarket.com/price?token_id={token_id}&side=sell
    ```
 
-### Таймауты
-Всегда устанавливать timeout для HTTP запросов (рекомендуется 10 секунд):
+### Timeouts
+Always set timeout for HTTP requests (recommended 10 seconds):
 ```python
 response = requests.get(url, params=params, timeout=10)
 ```
 
-### Обработка ошибок
-Всегда проверять:
-1. HTTP статус код (200 = успех)
-2. Наличие данных в ответе
-3. Корректность структуры данных
+### Error Handling
+Always check:
+1. HTTP status code (200 = success)
+2. Presence of data in response
+3. Correctness of data structure
 
-### Кодировка файлов
-При работе с JSON файлами всегда указывать UTF-8:
+### File Encoding
+When working with JSON files always specify UTF-8:
 ```python
 with open(log_file, 'w', encoding='utf-8') as f:
     json.dump(data, f, indent=2, ensure_ascii=False)
 ```
 
-Параметр `ensure_ascii=False` важен для корректного сохранения не-ASCII символов (кириллица, специальные символы).
+Parameter `ensure_ascii=False` is important for correct saving of non-ASCII characters (Cyrillic, special characters).
 
 ---
 
-## Полезные команды для отладки
+## Useful Debugging Commands
 
-### Тестирование API через curl
+### Testing API via curl
 
 ```bash
-# Получить информацию о рынке
+# Get market information
 curl "https://gamma-api.polymarket.com/markets?slug=will-joo-cotrim-figueiredo-win-the-2026-portugal-presidential-election-643"
 
-# Получить bid цену
+# Get bid price
 curl "https://clob.polymarket.com/price?token_id=28238304963115391468520084611709080022027216241044579007402765414035709535435&side=buy"
 
-# Получить ask цену
+# Get ask price
 curl "https://clob.polymarket.com/price?token_id=28238304963115391468520084611709080022027216241044579007402765414035709535435&side=sell"
 ```
 
-### Тестирование отдельных функций
+### Testing Individual Functions
 
 ```python
 from polymarket_price_logger import get_market_details, get_current_price
 
-# Тест получения деталей рынка
+# Test getting market details
 market = get_market_details("will-joo-cotrim-figueiredo-win-the-2026-portugal-presidential-election-643")
 print(market['question'])
 print(market['clobTokenIds'])
 
-# Тест получения цен
+# Test getting prices
 token_id = "28238304963115391468520084611709080022027216241044579007402765414035709535435"
 prices = get_current_price(token_id)
 print(prices)
@@ -246,6 +246,6 @@ print(prices)
 
 ---
 
-## История изменений
+## Change History
 
-**2026-01-18:** Документ создан на основе проблем, возникших при разработке Price Logger для Portugal Presidential Election.
+**2026-01-18:** Document created based on problems encountered during Price Logger development for Portugal Presidential Election.

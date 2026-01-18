@@ -1,70 +1,70 @@
-# GitHub - Быстрая шпаргалка
+# GitHub - Quick Reference
 
-## 🚀 Первая загрузка (копируй-вставляй)
+## 🚀 First Upload (Copy-Paste)
 
-### 1. Откройте PowerShell в папке проекта
+### 1. Open PowerShell in Project Folder
 ```powershell
 cd C:\Poly\Price_logger
 ```
 
-### 2. Выполните команды по порядку:
+### 2. Execute Commands in Order:
 
 ```bash
-# Инициализация Git
+# Initialize Git
 git init
 
-# Добавление всех файлов
+# Add all files
 git add .
 
-# Создание коммита
+# Create commit
 git commit -m "Initial commit: Polymarket Price Monitor"
 
-# Подключение к GitHub (ЗАМЕНИТЕ URL!)
-git remote add origin https://github.com/ваш-username/ваш-репозиторий.git
+# Connect to GitHub (REPLACE URL!)
+git remote add origin https://github.com/your-username/your-repository.git
 
-# Переименование ветки в main
+# Rename branch to main
 git branch -M main
 
-# Отправка на GitHub
+# Push to GitHub
 git push -u origin main
 ```
 
-**При первом `git push` введите:**
-- Username: ваш GitHub username
-- Password: Personal Access Token (НЕ пароль от аккаунта!)
+**On first `git push` enter:**
+- Username: your GitHub username
+- Password: Personal Access Token (NOT account password!)
 
 ---
 
-## 🔑 Создание Personal Access Token
+## 🔑 Creating Personal Access Token
 
 1. GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)
 2. "Generate new token (classic)"
-3. Название: `Polymarket Logger`
-4. Поставить галочку: **`repo`**
-5. Generate → Скопировать токен
-6. Использовать вместо пароля
+3. Name: `Polymarket Logger`
+4. Check: **`repo`**
+5. Generate → Copy token
+6. Use instead of password
 
 ---
 
-## 🔄 Обновление кода (после изменений)
+## 🔄 Updating Code (After Changes)
 
 ```bash
-# Проверить изменения
+# Check changes
 git status
 
-# Добавить изменения
+# Add changes
 git add .
 
-# Коммит
-git commit -m "Описание изменений"
+# Commit
+git commit -m "Description of changes"
 
-# Отправить на GitHub
+# Push to GitHub
 git push
 ```
 
 ---
 
-## 📋 Примеры сообщений коммита
+## 📋 Commit Message Examples
 
 ```bash
 git commit -m "Add new market to config"
@@ -76,7 +76,7 @@ git commit -m "Add health check endpoint"
 
 ---
 
-## ⚠️ Частые ошибки
+## ⚠️ Common Errors
 
 ### "remote origin already exists"
 ```bash
@@ -85,7 +85,7 @@ git remote add origin https://github.com/username/repo.git
 ```
 
 ### "Authentication failed"
-Используйте Personal Access Token, НЕ пароль от GitHub
+Use Personal Access Token, NOT GitHub password
 
 ### "Author identity unknown"
 ```bash
@@ -95,34 +95,34 @@ git config --global user.name "Your Name"
 
 ---
 
-## 📱 Альтернатива: GitHub Desktop
+## 📱 Alternative: GitHub Desktop
 
-Не хотите командную строку?
+Don't want command line?
 
-1. Скачайте [GitHub Desktop](https://desktop.github.com/)
+1. Download [GitHub Desktop](https://desktop.github.com/)
 2. File → Add local repository → `C:\Poly\Price_logger`
 3. Commit → Push
 
 ---
 
-## ✅ Проверка
+## ✅ Verification
 
-После `git push` откройте:
+After `git push` open:
 ```
-https://github.com/ваш-username/ваш-репозиторий
+https://github.com/your-username/your-repository
 ```
 
-Все файлы должны быть видны!
+All files should be visible!
 
 ---
 
-## 🚀 Деплой на Railway (после загрузки на GitHub)
+## 🚀 Deploy to Railway (After GitHub Upload)
 
 1. [railway.app](https://railway.app) → Login with GitHub
 2. New Project → Deploy from GitHub
-3. Выберите репозиторий
-4. Готово! Работает 24/7
+3. Select repository
+4. Done! Running 24/7
 
 ---
 
-**Подробная инструкция:** `GITHUB_GUIDE.md`
+**Detailed guide:** `GITHUB_GUIDE.md`
